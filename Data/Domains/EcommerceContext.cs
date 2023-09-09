@@ -24,9 +24,12 @@ namespace Ecommerce_BE.Data.Domains
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasMany(e => e.IngerProduct).WithOne().HasForeignKey(e => e.ProductID);
-                entity.Property(e=> e.Name).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.IngerProduct).IsRequired();
+                entity.HasMany(e => e.Ingerdients)
+                .WithMany(e => e.Products)
+                .UsingEntity<IngerProduct>(
+                    l=> l.HasOne<Ingerdient>().WithMany().HasForeignKey(e=> e.IngerdientID), 
+                    r=> r.HasOne<Product>().WithMany().HasForeignKey(e=>e.ProductID)
+                 );
                 entity.Property(e => e.Cost).IsRequired();
                 entity.Property(e=>e.Price).IsRequired();
                 entity.HasKey(e => e.id);
@@ -35,7 +38,6 @@ namespace Ecommerce_BE.Data.Domains
 
             modelBuilder.Entity<Ingerdient>(entity => 
             {
-               entity.HasMany(e=> e.IngerProducts).WithOne().HasForeignKey(e => e.IngerdientID);
                 entity.Property(e=> e.Name).IsRequired().HasMaxLength(50);
                 entity.Property(e=> e.PricePerGram).IsRequired(); 
                 entity.Property(e => e.ImportPrice).IsRequired();
