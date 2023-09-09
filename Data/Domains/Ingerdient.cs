@@ -5,7 +5,8 @@
         public string Name { get; set; }
         public double Weight { get; set; }
         public double ImportPrice { get; set; }
-        public double pricePerGram { get; set; }
+        public double PricePerGram { get; set; }
+        public List<IngerProduct> IngerProducts { get; set; }    
 
         public Ingerdient() { }
     }

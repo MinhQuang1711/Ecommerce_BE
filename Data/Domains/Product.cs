@@ -5,7 +5,7 @@
         public string Name { get; set; }
         public double Price { get; set; }   
         public double Cost { get; set; }
-        public List<DetailProduct> DetailProductList { get; set; }  = new List<DetailProduct>();    
+        public List<IngerProduct> IngerProduct { get; set; }   
 
         Product() {  }
 

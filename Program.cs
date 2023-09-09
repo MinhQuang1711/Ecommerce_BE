@@ -9,7 +9,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<EcommerceContext>(options=> options.UseMySQL(builder.Configuration.GetConnectionString("Database")));
+string _connectString = builder.Configuration.GetConnectionString("Database");
+builder.Services.AddDbContext<EcommerceContext>(
+    options=> options.UseMySql(_connectString,ServerVersion.AutoDetect(_connectString)));
 
 var app = builder.Build();
 

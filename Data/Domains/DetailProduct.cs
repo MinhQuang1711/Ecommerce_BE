@@ -1,14 +1,14 @@
 ﻿namespace Ecommerce_BE.Data.Domains
 {
-    public class DetailProduct: BaseModel
+    public class IngerProduct: BaseModel
     {
 
-        public double weight { get; set; }
-        public double sumCost { get; set; }
-        public string productID { get; set; }
-        public string ingerdientID { get; set; }
+        public double Weight { get; set; }
+        public double SumCost { get; set; }
+        public string ProductID { get; set; }
+        public string IngerdientID { get; set; }
 
-        DetailProduct() { }
+        IngerProduct() { }
 
     }
 }
