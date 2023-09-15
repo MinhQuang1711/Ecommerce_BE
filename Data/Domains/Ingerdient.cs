@@ -3,10 +3,12 @@
     public class Ingerdient: BaseModel
     {
         public string Name { get; set; }
-        public double Weight { get; set; }
+        public string Loss { get; set; }
+        public string RealWeight { get; set; }
+        public double NetWeight { get; set; }
         public double ImportPrice { get; set; }
         public double PricePerGram { get; set; }
-        public List<Product> Products{ get; set; }    
+    
 
         public Ingerdient() { }
     }
