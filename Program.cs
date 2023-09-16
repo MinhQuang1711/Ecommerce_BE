@@ -1,4 +1,5 @@
 using Ecommerce_BE.Data.Domains;
+using Ecommerce_BE.Repositories.Ingerdients;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ string _connectString = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<EcommerceContext>(
     options=> options.UseMySql(_connectString,ServerVersion.AutoDetect(_connectString)));
 
+
+builder.Services.AddScoped<IIngredientRepo, IngredientRepo>();
 var app = builder.Build();
 
 
