@@ -1,4 +1,5 @@
 ﻿using Ecommerce_BE.Data.Domains;
+using Ecommerce_BE.Messages;
 using Ecommerce_BE.Repositories.Ingerdients;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,10 +7,11 @@ using ZstdSharp.Unsafe;
 
 namespace Ecommerce_BE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ingredient")]
     [ApiController]
     public class Ingredients : ControllerBase
     {
+     
         private readonly EcommerceContext _context;
         private readonly IIngredientRepo _repo;
 
@@ -17,8 +19,8 @@ namespace Ecommerce_BE.Controllers
             _context = context;
             _repo = repo;
         }
-        [HttpGet]
-        [Route("get-all")]
+
+        [HttpGet("get-all")]
         public async Task<IActionResult>GetAll() {
             try
             {
@@ -26,13 +28,12 @@ namespace Ecommerce_BE.Controllers
             } 
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return StatusCode(500,ex.Message);
             }
             
         }
 
-        [HttpPost]
-        [Route("create")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateIngredient(Ingerdient ingredient)
         {
             try
@@ -42,36 +43,30 @@ namespace Ecommerce_BE.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return StatusCode(500, ex.Message);
             }
         }
 
-        [HttpDelete]
-        [Route("delete")]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteIngredient(string id)
         {
-            try
+            if(await _repo.DeleteIngredient(id) == false) 
             {
-                await _repo.DeleteIngredient(id);
-                return Ok();
+                return NotFound(BusinessMessage.NotFoundIngredient);
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return Ok();
+           
         }
 
         [HttpPut ("update")]
-        public async Task<IActionResult> UpdateIngreient(Ingerdient ingerdient)
+        public async Task<IActionResult> UpdateIngredient(Ingerdient ingerdient)
         {
-            try
+            if (await _repo.UpdateIngredient(ingerdient) == false)
             {
-                await _repo.UpdateIngredient(ingerdient); 
-                return Ok();
-            }catch(Exception ex)
-            {
-                return BadRequest(ex);
+                return NotFound(BusinessMessage.NotFoundIngredient);
             }
+            return Ok();
+
         }
     }
 }

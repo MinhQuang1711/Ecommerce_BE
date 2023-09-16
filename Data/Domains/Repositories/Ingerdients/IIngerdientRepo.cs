@@ -6,8 +6,8 @@ namespace Ecommerce_BE.Repositories.Ingerdients
     {
         public Task<List<Ingerdient>> GetAllIngredient();
         public Task CreateIngredient(Ingerdient model);
-        public Task UpdateIngredient(Ingerdient model); 
-        public Task DeleteIngredient(string id);
+        public Task<bool> UpdateIngredient(Ingerdient model); 
+        public Task<bool> DeleteIngredient(string id);
         
 
     }
