@@ -1,5 +1,7 @@
 using Ecommerce_BE.Data.Domains;
+using Ecommerce_BE.Data.Domains.Repositories;
 using Ecommerce_BE.Repositories.Ingerdients;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,7 @@ builder.Services.AddDbContext<EcommerceContext>(
 
 
 builder.Services.AddScoped<IIngredientRepo, IngredientRepo>();
+//builder.Services.AddScoped<IRepositoryManager,RepositoryManager>();
 var app = builder.Build();
 
 

@@ -7,11 +7,10 @@ namespace Ecommerce_BE.Repositories.Ingerdients
     public class IngredientRepo : IIngredientRepo
     {
         private readonly EcommerceContext _context;
-        private readonly ILogger<IngredientRepo> _logger;
+    
 
-        public IngredientRepo(EcommerceContext context,ILogger<IngredientRepo> logger) {
+        public IngredientRepo(EcommerceContext context) {
             _context = context;
-            _logger= logger;
         }
 
         public async Task CreateIngredient(Ingerdient model)
@@ -20,18 +19,16 @@ namespace Ecommerce_BE.Repositories.Ingerdients
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteIngredient(string id)
+        public async Task<bool> DeleteIngredient(string id)
         {
             var deleteIngredient= await _context.ingerdients.SingleOrDefaultAsync(i=> i.id==id);
             if (deleteIngredient != null)
             {
                 _context.ingerdients.Remove(deleteIngredient);
                 await _context.SaveChangesAsync();
+                return true;
             }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            return false;
         }
 
         public async Task<List<Ingerdient>> GetAllIngredient()
@@ -39,7 +36,7 @@ namespace Ecommerce_BE.Repositories.Ingerdients
             return await _context.ingerdients.ToListAsync();
         }
 
-        public async Task UpdateIngredient(Ingerdient model)
+        public async Task<bool> UpdateIngredient(Ingerdient model)
         {
             var updateIngredient = await _context.ingerdients.SingleOrDefaultAsync(i => i.id == model.id);
             if (updateIngredient != null)
@@ -53,10 +50,9 @@ namespace Ecommerce_BE.Repositories.Ingerdients
 
                 _context.ingerdients.Update(updateIngredient);
                 await _context.SaveChangesAsync();
-            }else 
-            { 
-                throw new NotImplementedException(); 
+                return true;
             }
+            return false;
             
         }
     }
