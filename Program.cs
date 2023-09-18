@@ -1,6 +1,7 @@
 using Ecommerce_BE.Data.Domains;
 using Ecommerce_BE.Data.Domains.Repositories;
 using Ecommerce_BE.Repositories.Ingerdients;
+using Ecommerce_BE.Services.ManagerServices;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,8 +18,8 @@ builder.Services.AddDbContext<EcommerceContext>(
     options=> options.UseMySql(_connectString,ServerVersion.AutoDetect(_connectString)));
 
 
-builder.Services.AddScoped<IIngredientRepo, IngredientRepo>();
-//builder.Services.AddScoped<IRepositoryManager,RepositoryManager>();
+builder.Services.AddScoped<IRepositoryManager,RepositoryManager>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
 var app = builder.Build();
 
 

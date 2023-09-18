@@ -1,6 +1,9 @@
 ﻿using Ecommerce_BE.Data.Domains;
+using Ecommerce_BE.Data.Domains.Repositories;
+using Ecommerce_BE.Data.DTO.Ingredients;
 using Ecommerce_BE.Messages;
 using Ecommerce_BE.Repositories.Ingerdients;
+using Ecommerce_BE.Services.ManagerServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ZstdSharp.Unsafe;
@@ -11,20 +14,19 @@ namespace Ecommerce_BE.Controllers
     [ApiController]
     public class Ingredients : ControllerBase
     {
-     
-        private readonly EcommerceContext _context;
-        private readonly IIngredientRepo _repo;
+        private readonly IManagerService _managerService;
+       
 
-        public Ingredients(EcommerceContext context,IIngredientRepo repo) {
-            _context = context;
-            _repo = repo;
+        public Ingredients(EcommerceContext context,IRepositoryManager repo,IManagerService managerService) {
+            _managerService= managerService;
+
         }
 
         [HttpGet("get-all")]
         public async Task<IActionResult>GetAll() {
             try
             {
-                return Ok(await _repo.GetAllIngredient());
+                return Ok(await _managerService.ingredientService.GetAll());
             } 
             catch (Exception ex)
             {
@@ -34,39 +36,65 @@ namespace Ecommerce_BE.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateIngredient(Ingerdient ingredient)
+        public async Task<IActionResult> CreateIngredient(CreateIngredient ingredientDto)
         {
-            try
+            try 
             {
-                await _repo.CreateIngredient(ingredient);
-                return Ok();
+                var message = await _managerService.ingredientService.Create(ingredientDto);
+
+                if (message == null)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(message);
+                }
+            } catch (Exception ex) {
+                return StatusCode(500,ex.Message);  
+            
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+           
+
+           
         }
 
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteIngredient(string id)
         {
-            if(await _repo.DeleteIngredient(id) == false) 
+            if (await _managerService.ingredientService.SearchById(id) == null)
             {
                 return NotFound(BusinessMessage.NotFoundIngredient);
             }
-            return Ok();
+
+            else if(await _managerService.ingredientService.Delete(id)) 
+            {
+                return Ok();
+            }
+            return BadRequest();
            
         }
 
         [HttpPut ("update")]
-        public async Task<IActionResult> UpdateIngredient(Ingerdient ingerdient)
+        public async Task<IActionResult> UpdateIngredient(Ingerdient ingredient)
         {
-            if (await _repo.UpdateIngredient(ingerdient) == false)
+            if (await _managerService.ingredientService.SearchById(ingredient.id) == null)
             {
                 return NotFound(BusinessMessage.NotFoundIngredient);
             }
-            return Ok();
 
+            else if (await _managerService.ingredientService.Update(ingredient))
+            {
+                return Ok();
+            }
+            return BadRequest();
+
+        }
+
+        [HttpGet ("searchById")]
+        public async Task<IActionResult> SearchById(string id)
+        {
+            return Ok(await _managerService.ingredientService.SearchById(id));
         }
     }
 }

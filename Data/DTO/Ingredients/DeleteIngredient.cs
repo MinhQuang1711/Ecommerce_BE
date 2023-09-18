@@ -2,6 +2,7 @@
 {
     public class DeleteIngredient
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
+        public DeleteIngredient() { }
     }
 }

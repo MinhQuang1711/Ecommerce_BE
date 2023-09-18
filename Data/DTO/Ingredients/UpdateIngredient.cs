@@ -2,5 +2,6 @@
 {
     public class UpdateIngredient: CreateIngredient
     {
+        public UpdateIngredient() { }
     }
 }
