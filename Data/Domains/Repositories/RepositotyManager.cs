@@ -8,12 +8,14 @@ namespace Ecommerce_BE.Data.Domains.Repositories
     public class RepositoryManager : IRepositoryManager
     {
         private readonly Lazy<IIngredientRepo> _lazyIngredientRepository;
+        private readonly Lazy<IProductRepository> _lazyProductRepository;
 
         public RepositoryManager(EcommerceContext context) {
             _lazyIngredientRepository = new Lazy<IIngredientRepo>(() => new IngredientRepo(context)) ;
+            _lazyProductRepository= new Lazy<IProductRepository>(() => new ProductRepository(context)) ;
         }
 
-        public IProductRepo productRepo => throw new NotImplementedException();
+        public IProductRepository productRepo => throw new NotImplementedException();
 
         public IImportBillRepo importBillRepo => throw new NotImplementedException();
 
