@@ -1,19 +1,17 @@
 ﻿using Ecommerce_BE.Data.Domains;
+using Ecommerce_BE.Data.DTO.DetaiProducts;
 using Ecommerce_BE.Data.DTO.Products;
 
 namespace Ecommerce_BE.Services.ProductServices
 {
     public interface IProductService
     {
+        public Task<List<ProductDto>> GetAll();
 
-        public Task<string>? DeleteProduct(string productId);
+        public Task<string?> CreateProduct(CreateProductDto model);
 
-        public Task<ProductDto> SearchById(string productId);
+        public Task<double?> GetTotalCost(List<DetailProductDto> detailProductDtoList);
 
-        public List<ProductDto> SearchByName(string productName);
 
-        public Task<string>? UpdateProduct(UpdateProductDto model);
-
-        public Task<List<ProductDto>> GetAll(List<Product> productList);
     }
 }

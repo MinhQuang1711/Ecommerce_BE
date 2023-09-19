@@ -13,5 +13,9 @@
         public const string IngredientPriceRequied = "Giá nguyên liệu phải lớn hơn 0";
         public const string IngredientWeightRequied = "Trọng lượng nguyên liệu phải lớn hơn 0 ";
 
+        // CREATE PRODUCT
+
+        public const string IngredientNotExist = "Một hoặc nhiều nguyên liệu bạn chọn không tồn tại";
+
     }
 }

@@ -7,9 +7,8 @@
         public double Cost { get; set; }
         public double SalePrice { get; set; }   
         public double PercentProfit { get; set; }   
-       
 
-        Product() {  }
+        public Product() {  }
 
     }
 }

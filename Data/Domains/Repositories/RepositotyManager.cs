@@ -15,7 +15,7 @@ namespace Ecommerce_BE.Data.Domains.Repositories
             _lazyProductRepository= new Lazy<IProductRepository>(() => new ProductRepository(context)) ;
         }
 
-        public IProductRepository productRepo => throw new NotImplementedException();
+        public IProductRepository productRepo => _lazyProductRepository.Value;
 
         public IImportBillRepo importBillRepo => throw new NotImplementedException();
 
