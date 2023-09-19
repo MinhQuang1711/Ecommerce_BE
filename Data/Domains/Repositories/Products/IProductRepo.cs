@@ -2,11 +2,14 @@
 
 namespace Ecommerce_BE.Repositories.Products
 {
-    public interface IProductRepo
+    public interface IProductRepository
     {
-        public Task<List<Product>> GetAllProduct(); 
-        public Task CreateProduct(Product product);
-        public Task UpdateProduct(Product product);
+        public Product SearchById(string id);
         public Task DeleteProduct(String id);
+        public Task<List<Product>> GetAllProduct(); 
+        public Task CreateProduct(Product product); public List<Product> SearchByName(string name);
+        public Task UpdateProduct(Product product,string id);
+       
+
     }
 }

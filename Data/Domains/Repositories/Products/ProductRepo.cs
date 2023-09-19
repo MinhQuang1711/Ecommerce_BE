@@ -1,27 +1,53 @@
 ﻿using Ecommerce_BE.Data.Domains;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_BE.Repositories.Products
 {
-    public class ProductRepo : IProductRepo
+    public class ProductRepository : IProductRepository
     {
-        public Task CreateProduct(Product product)
-        {
-            throw new NotImplementedException();
+        private readonly EcommerceContext _context;
+
+        public ProductRepository(EcommerceContext context) {
+            _context = context;
         }
 
-        public Task DeleteProduct(string id)
+        public async Task CreateProduct(Product product)
         {
-            throw new NotImplementedException();
+            await _context.products.AddAsync(product);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Product>> GetAllProduct()
+        public async Task DeleteProduct(string id)
         {
-            throw new NotImplementedException();
+            var _productResult= await _context.products.SingleAsync(p=> p.id==id);
+            _context.products.Remove(_productResult);
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateProduct(Product product)
+        public async Task<List<Product>> GetAllProduct()
         {
-            throw new NotImplementedException();
+            return await _context.products.ToListAsync();
+        }
+
+        public async Task UpdateProduct(Product model,string id)
+        {
+            var _productResult = await _context.products.SingleAsync(p => p.id == id);
+            _productResult = model;
+             _context.products.Update(_productResult);
+            await _context.SaveChangesAsync();
+
+            
+        }
+
+        public async Task<Product?> SearchById(string id)
+        {
+            return await _context.products.SingleAsync(p=> p.id==id);
+        }
+
+        public List<Product> SearchByName(string name)
+        {
+            var result = _context.products.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+            return result.ToList(); 
         }
     }
 }
