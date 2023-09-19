@@ -1,6 +1,8 @@
 ﻿using Ecommerce_BE.Data.Domains;
 using Ecommerce_BE.Data.Domains.Repositories;
+using Ecommerce_BE.Data.DTO.DetaiProducts;
 using Ecommerce_BE.Data.DTO.Products;
+using Ecommerce_BE.Messages;
 
 namespace Ecommerce_BE.Services.ProductServices
 {
@@ -12,30 +14,53 @@ namespace Ecommerce_BE.Services.ProductServices
             _repositoryManager= repositoryManager;
         }
 
+        public async Task<string?> CreateProduct(CreateProductDto model)
+        {
+            var _cost = await GetTotalCost(model.DetailProductsList);
+            if (_cost != null)
+            {
+                var _productModel = new Product()
+                {
+                    id = Guid.NewGuid().ToString(),
+                    Name = model.Name,
+                    Price = model.Price,
+                    SalePrice = 0,
+                    Cost = _cost??0,
+                    PercentProfit = (_cost??0 / model.Price) * 100
 
-        public Task<string>? DeleteProduct(string productId)
+                };
+                await _repositoryManager.productRepo.CreateProduct(_productModel);
+                return null;
+
+            }
+            return BusinessMessage.IngredientNotExist;
+           
+        }
+
+        public Task<List<ProductDto>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<ProductDto>> GetAll(List<Product> productList)
+        public async Task<double?> GetTotalCost(List<DetailProductDto> detailProductDtoList)
         {
-            throw new NotImplementedException();
-        }
+            double _totalCost = 0;
+            foreach (var product in detailProductDtoList)
+            {
+                var _ingredient=await _repositoryManager.ingredientRepo.FindIngredientById(product.IngredientID);
+                if(_ingredient!=null)
+                {
+                    double _costOfIngredient = product.Weight * _ingredient.PricePerGram;
+                    _totalCost = _totalCost + _costOfIngredient;
+                }
+                else
+                {
+                    return null;
+                } 
 
-        public Task<ProductDto> SearchById(string productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<ProductDto> SearchByName(string productName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string>? UpdateProduct(UpdateProductDto model)
-        {
-            throw new NotImplementedException();
+                 
+            }
+            return _totalCost;
         }
     }
 }
