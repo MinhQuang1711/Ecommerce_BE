@@ -55,8 +55,6 @@ namespace Ecommerce_BE.Controllers
             
             }
            
-
-           
         }
 
         [HttpDelete("delete")]
@@ -76,18 +74,18 @@ namespace Ecommerce_BE.Controllers
         }
 
         [HttpPut ("update")]
-        public async Task<IActionResult> UpdateIngredient(Ingerdient ingredient)
+        public async Task<IActionResult> UpdateIngredient(UpdateIngredient ingredient,string id)
         {
-            if (await _managerService.ingredientService.SearchById(ingredient.id) == null)
+            if (await _managerService.ingredientService.SearchById(id) == null)
             {
                 return NotFound(BusinessMessage.NotFoundIngredient);
             }
 
-            else if (await _managerService.ingredientService.Update(ingredient))
+            else if (await _managerService.ingredientService.Update(ingredient,id)==null)
             {
                 return Ok();
             }
-            return BadRequest();
+            return BadRequest(await _managerService.ingredientService.Update(ingredient, id));
 
         }
 
@@ -96,5 +94,6 @@ namespace Ecommerce_BE.Controllers
         {
             return Ok(await _managerService.ingredientService.SearchById(id));
         }
+
     }
 }

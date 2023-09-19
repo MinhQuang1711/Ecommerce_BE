@@ -1,4 +1,7 @@
 ﻿using Ecommerce_BE.Data.Domains;
+using Ecommerce_BE.Data.DTO.Ingredients;
+using Ecommerce_BE.Messages;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -41,22 +44,54 @@ namespace Ecommerce_BE.Repositories.Ingerdients
             return await _context.ingerdients.ToListAsync();
         }
 
-        public async Task<bool> UpdateIngredient(Ingerdient model)
+        public double? GetCostOfIngredient(double importPrice, double realWeight)
         {
-            var updateIngredient = await _context.ingerdients.SingleOrDefaultAsync(i => i.id == model.id);
+            if(realWeight >= 0)
+            {
+                return importPrice / realWeight;
+            }
+            return null;
+        }
+
+        public double GetRealWeight(double netWeight, double? loss)
+        {   
+            var _realWeight = netWeight - netWeight * (loss??0 / 100);
+            return _realWeight;
+        }
+
+        public async Task<string?> UpdateIngredient(UpdateIngredient model, string id)
+        {
+            var updateIngredient = await _context.ingerdients.SingleOrDefaultAsync(i => i.id == id);
             if (updateIngredient != null)
             {
-                updateIngredient.Name = model.Name;
-                updateIngredient.Loss = model.Loss;
-                updateIngredient.NetWeight = model.NetWeight;
-                updateIngredient.NetWeight= model.NetWeight;
-                updateIngredient.ImportPrice = model.ImportPrice;
+                var _loss= model.Loss??updateIngredient.Loss;
+                var _netWeight = model.NetWeight ?? updateIngredient.NetWeight;
+                var _importPrice= model.ImportPrice??updateIngredient.ImportPrice;
+                
+                updateIngredient.Name= model.Name ?? updateIngredient.Name;
+                updateIngredient.Loss = _loss; 
+
+                if (_importPrice > 0)
+                    updateIngredient.ImportPrice = _importPrice; 
+                else
+                    return BusinessMessage.IngredientPriceRequied; 
+              
+                if (model.NetWeight > 0)
+                    updateIngredient.NetWeight=_netWeight;
+                else
+                    return BusinessMessage.IngredientWeightRequied;
+
+                var _realWight = GetRealWeight(_netWeight,_loss);
+                var _pricePerGram = GetCostOfIngredient(_importPrice,_realWight);
+
+                updateIngredient.RealWeight = _realWight;
+                updateIngredient.PricePerGram = _pricePerGram??updateIngredient.PricePerGram;
 
                 _context.ingerdients.Update(updateIngredient);
                 await _context.SaveChangesAsync();
-                return true;
+                return null;
             }
-            return false;
+            return BusinessMessage.NotFoundIngredient;
             
         }
     }
