@@ -44,51 +44,14 @@ namespace Ecommerce_BE.Repositories.Ingerdients
             return await _context.ingerdients.ToListAsync();
         }
 
-        public double? GetCostOfIngredient(double importPrice, double realWeight)
+
+        public async Task<string?> UpdateIngredient(Ingerdient model, string id)
         {
-            if(realWeight >= 0)
+            var _ingredientResult = await _context.ingerdients.SingleOrDefaultAsync(i => i.id == id);
+            if (_ingredientResult != null)
             {
-                return importPrice / realWeight;
-            }
-            return null;
-        }
-
-        public double GetRealWeight(double netWeight, double? loss)
-        {   
-            var _realWeight = netWeight - netWeight * (loss??0 / 100);
-            return _realWeight;
-        }
-
-
-        public async Task<string?> UpdateIngredient(UpdateIngredient model, string id)
-        {
-            var updateIngredient = await _context.ingerdients.SingleOrDefaultAsync(i => i.id == id);
-            if (updateIngredient != null)
-            {
-                var _loss= model.Loss??updateIngredient.Loss;
-                var _netWeight = model.NetWeight ?? updateIngredient.NetWeight;
-                var _importPrice= model.ImportPrice??updateIngredient.ImportPrice;
-                
-                updateIngredient.Name= model.Name ?? updateIngredient.Name;
-                updateIngredient.Loss = _loss; 
-
-                if (_importPrice > 0)
-                    updateIngredient.ImportPrice = _importPrice; 
-                else
-                    return BusinessMessage.IngredientPriceRequied; 
-              
-                if (model.NetWeight > 0)
-                    updateIngredient.NetWeight=_netWeight;
-                else
-                    return BusinessMessage.IngredientWeightRequied;
-
-                var _realWight = GetRealWeight(_netWeight,_loss);
-                var _pricePerGram = GetCostOfIngredient(_importPrice,_realWight);
-
-                updateIngredient.RealWeight = _realWight;
-                updateIngredient.PricePerGram = _pricePerGram??updateIngredient.PricePerGram;
-
-                _context.ingerdients.Update(updateIngredient);
+                _ingredientResult = model;
+                _context.ingerdients.Update(_ingredientResult);
                 await _context.SaveChangesAsync();
                 return null;
             }

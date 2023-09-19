@@ -17,7 +17,7 @@ namespace Ecommerce_BE.Repositories.Ingerdients
 
         public List<Ingerdient> SearchByName(string name);
 
-        public Task<string?> UpdateIngredient(UpdateIngredient model, string id);
+        public Task<string?> UpdateIngredient(Ingerdient model, string id);
 
     }
 }

@@ -12,11 +12,15 @@ namespace Ecommerce_BE.Services.IngredientServices
 
         public Task<Ingerdient?> SearchById(string id);
 
+        public List<Ingerdient> SearchByName(string name);
+
         public Task<string?> Create(CreateIngredient model);
 
+        public double GetRealWeight(double netWeight, double? loss);
+        
         public Task<string?> Update(UpdateIngredient model, string id);
 
-        public List<Ingerdient> SearchByName(string name);
+        public double GetPricePerGram(double realWeight, double ImportPrice);
 
 
     }

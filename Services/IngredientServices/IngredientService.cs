@@ -25,15 +25,17 @@ namespace Ecommerce_BE.Services.IngredientServices
             {
                 return BusinessMessage.IngredientWeightRequied;
             }
+            var _realWeight = GetRealWeight(model.NetWeight, model.Loss);
             var ingredient = new Ingerdient()
             {
-                id = Guid.NewGuid().ToString(),
+
                 Name = model.Name,
-                ImportPrice = model.ImportPrice,
+                Loss = model.Loss ?? 0,
+                RealWeight = _realWeight,
                 NetWeight = model.NetWeight,
-                Loss = model.Loss??0,
-                RealWeight = model.NetWeight - model.Loss==null?0: model.NetWeight * (model.Loss??0 / 100),
-                PricePerGram = model.ImportPrice / model.NetWeight - model.NetWeight * (model.Loss ?? 0 / 100),
+                id = Guid.NewGuid().ToString(),
+                ImportPrice = model.ImportPrice,
+                PricePerGram = GetPricePerGram(_realWeight, model.ImportPrice),
             };
             await _repositoryManager.ingredientRepo.CreateIngredient(ingredient);
             return null;
@@ -57,16 +59,60 @@ namespace Ecommerce_BE.Services.IngredientServices
 
         
 
-        public async Task<string?> Update(UpdateIngredient update, string id)
+        public async Task<string?> Update(UpdateIngredient model, string id)
         {
+            var _ingredientResult = await _repositoryManager.ingredientRepo.FindIngredientById(id);
+            if (_ingredientResult != null)
+            {
+                var _name = model.Name??_ingredientResult.Name;
+                var _loss = model.Loss ?? _ingredientResult.Loss;
+                var _netWeight = model.NetWeight ?? _ingredientResult.NetWeight;
+                var _importPrice = model.ImportPrice ?? _ingredientResult.ImportPrice;
 
-            
-            return await _repositoryManager.ingredientRepo.UpdateIngredient(update,id);
+                _ingredientResult.Loss = _loss;
+                _ingredientResult.Name = _name;
+
+                if (_importPrice > 0)
+                    _ingredientResult.ImportPrice = _importPrice;
+                else
+                    return BusinessMessage.IngredientPriceRequied;
+
+                if (model.NetWeight > 0)
+                    _ingredientResult.NetWeight = _netWeight;
+                else
+                    return BusinessMessage.IngredientWeightRequied;
+
+                var _realWeight = GetRealWeight(_netWeight, _loss);
+                _ingredientResult.RealWeight = _realWeight;
+                _ingredientResult.PricePerGram= GetPricePerGram(_realWeight, _importPrice);
+
+                return await _repositoryManager.ingredientRepo.UpdateIngredient(_ingredientResult, id);
+
+
+            }
+
+
+            return BusinessMessage.NotFoundIngredient;
         }
 
         public List<Ingerdient> SearchByName(string name)
         {
             return _repositoryManager.ingredientRepo.SearchByName(name);    
+        }
+
+        public double GetRealWeight(double netWeight, double? loss)
+        {
+           
+            var _loss = loss  ??0;
+            var _weightLoss= netWeight * (_loss / 100);
+            var _realWeight = netWeight - _weightLoss;
+            return _realWeight;
+        }
+
+        public double GetPricePerGram(double realWeight, double importPrice)
+        {
+            return importPrice / realWeight;
+            
         }
     }
 }
