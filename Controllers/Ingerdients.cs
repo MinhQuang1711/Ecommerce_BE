@@ -89,10 +89,16 @@ namespace Ecommerce_BE.Controllers
 
         }
 
-        [HttpGet ("searchById")]
+        [HttpGet ("search-by-id")]
         public async Task<IActionResult> SearchById(string id)
         {
             return Ok(await _managerService.ingredientService.SearchById(id));
+        }
+
+        [HttpGet ("search-by-name")]
+        public IActionResult SearchByName(string name)
+        {
+            return Ok(_managerService.ingredientService.SearchByName(name));
         }
 
     }

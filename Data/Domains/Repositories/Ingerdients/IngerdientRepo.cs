@@ -59,6 +59,7 @@ namespace Ecommerce_BE.Repositories.Ingerdients
             return _realWeight;
         }
 
+
         public async Task<string?> UpdateIngredient(UpdateIngredient model, string id)
         {
             var updateIngredient = await _context.ingerdients.SingleOrDefaultAsync(i => i.id == id);
@@ -93,6 +94,14 @@ namespace Ecommerce_BE.Repositories.Ingerdients
             }
             return BusinessMessage.NotFoundIngredient;
             
+        }
+
+        public List<Ingerdient> SearchByName(string name)
+        {
+            var ingredientsResult = _context.ingerdients.Where(ingredient
+                    => ingredient.Name.Contains(name,StringComparison.OrdinalIgnoreCase)
+               );
+            return ingredientsResult.ToList();  
         }
     }
 }
