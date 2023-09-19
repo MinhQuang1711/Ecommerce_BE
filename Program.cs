@@ -15,7 +15,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 string _connectString = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<EcommerceContext>(
-    options=> options.UseMySql(_connectString,ServerVersion.AutoDetect(_connectString)));
+    options=> options.UseMySql(_connectString,ServerVersion.AutoDetect(_connectString),option=>
+    {
+        option.EnableStringComparisonTranslations();
+    }));
 
 
 builder.Services.AddScoped<IRepositoryManager,RepositoryManager>();

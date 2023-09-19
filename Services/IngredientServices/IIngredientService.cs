@@ -16,6 +16,8 @@ namespace Ecommerce_BE.Services.IngredientServices
 
         public Task<string?> Update(UpdateIngredient model, string id);
 
+        public List<Ingerdient> SearchByName(string name);
+
 
     }
 }

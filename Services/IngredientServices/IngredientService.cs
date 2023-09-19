@@ -55,11 +55,18 @@ namespace Ecommerce_BE.Services.IngredientServices
             return await _repositoryManager.ingredientRepo.FindIngredientById(id);
         }
 
+        
+
         public async Task<string?> Update(UpdateIngredient update, string id)
         {
 
             
             return await _repositoryManager.ingredientRepo.UpdateIngredient(update,id);
+        }
+
+        public List<Ingerdient> SearchByName(string name)
+        {
+            return _repositoryManager.ingredientRepo.SearchByName(name);    
         }
     }
 }
