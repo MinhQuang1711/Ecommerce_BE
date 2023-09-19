@@ -2,6 +2,7 @@
 using Ecommerce_BE.Data.Domains.Repositories;
 using Ecommerce_BE.Data.DTO.Ingredients;
 using Ecommerce_BE.Messages;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_BE.Services.IngredientServices
 {
@@ -54,9 +55,11 @@ namespace Ecommerce_BE.Services.IngredientServices
             return await _repositoryManager.ingredientRepo.FindIngredientById(id);
         }
 
-        public async Task<bool> Update(Ingerdient model)
+        public async Task<string?> Update(UpdateIngredient update, string id)
         {
-            return await _repositoryManager.ingredientRepo.UpdateIngredient(model);
+
+            
+            return await _repositoryManager.ingredientRepo.UpdateIngredient(update,id);
         }
     }
 }
