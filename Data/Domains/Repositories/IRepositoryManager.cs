@@ -8,7 +8,7 @@ namespace Ecommerce_BE.Data.Domains.Repositories
     public interface IRepositoryManager
     {
        
-        public IProductRepo productRepo { get; }
+        public IProductRepository productRepo { get; }
         public IImportBillRepo importBillRepo { get; }
         public IBillOfSaleRepo billOfSaleRepo { get; }
         public IIngredientRepo ingredientRepo { get; }

@@ -4,10 +4,16 @@ namespace Ecommerce_BE.Repositories.Products
 {
     public interface IProductRepository
     {
-        public Product SearchById(string id);
+        public Task<Product?> SearchById(string id); 
+
         public Task DeleteProduct(String id);
+
         public Task<List<Product>> GetAllProduct(); 
-        public Task CreateProduct(Product product); public List<Product> SearchByName(string name);
+
+        public Task CreateProduct(Product product); 
+
+        public List<Product> SearchByName(string name);
+
         public Task UpdateProduct(Product product,string id);
        
 
