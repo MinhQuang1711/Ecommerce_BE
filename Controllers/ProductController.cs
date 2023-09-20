@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_BE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Products")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -50,6 +50,28 @@ namespace Ecommerce_BE.Controllers
             }
             
         }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                
+                var _message = await _managerService.productService.Delete(id);
+                if (_message != null)
+                {
+                    return BadRequest(_message);
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+
 
 
 

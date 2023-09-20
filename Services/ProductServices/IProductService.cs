@@ -12,6 +12,8 @@ namespace Ecommerce_BE.Services.ProductServices
 
         public Task<double?> GetTotalCost(List<DetailProductDto> detailProductDtoList);
 
+        public Task<string?> Delete(string id);
+
 
     }
 }

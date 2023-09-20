@@ -41,7 +41,7 @@ namespace Ecommerce_BE.Repositories.Products
 
         public async Task<Product?> SearchById(string id)
         {
-            return await _context.products.SingleAsync(p=> p.Id ==id);
+            return await _context.products.SingleOrDefaultAsync(p=> p.Id ==id);
         }
 
         public List<Product> SearchByName(string name)

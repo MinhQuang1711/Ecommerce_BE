@@ -37,6 +37,17 @@ namespace Ecommerce_BE.Services.ProductServices
            
         }
 
+        public async Task<string?> Delete(string id)
+        {
+           var _result=await _repositoryManager.productRepo.SearchById(id);
+            if (_result!=null)
+            {
+                await _repositoryManager.productRepo.DeleteProduct(id);
+                return null;
+            }
+            return BusinessMessage.NotFoundProduct;
+        }
+
         public async Task<List<GetProductDto>> GetAll()
         {
             var _productList = await _repositoryManager.productRepo.GetAllProduct();
