@@ -71,6 +71,22 @@ namespace Ecommerce_BE.Controllers
 
         }
 
+        [HttpGet("search-by-name")]
+        public async Task<IActionResult> SearchByName(string name)
+        {
+            try
+            {
+                var _productDtos =  _managerService.productService.SearchByName(name);
+
+                return Ok(_productDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
 
 
 

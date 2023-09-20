@@ -1,4 +1,5 @@
-﻿using Ecommerce_BE.Data.Domains.Repositories;
+﻿using AutoMapper;
+using Ecommerce_BE.Data.Domains.Repositories;
 using Ecommerce_BE.Services.DetailProductServices;
 using Ecommerce_BE.Services.IngredientServices;
 using Ecommerce_BE.Services.ProductServices;
@@ -11,9 +12,9 @@ namespace Ecommerce_BE.Services.ManagerServices
         private readonly Lazy<IProductService> _lazyProductService;
         private readonly Lazy<IDetailProductService> _lazyDetailProductService;
 
-        public ManagerService(IRepositoryManager repositoryManager) { 
+        public ManagerService(IRepositoryManager repositoryManager,IMapper mapper) { 
             _lazyIngredientService= new Lazy<IIngredientService>(()=>new IngredientService(repositoryManager));
-            _lazyProductService = new Lazy<IProductService>(() => new ProductService(repositoryManager));
+            _lazyProductService = new Lazy<IProductService>(() => new ProductService(repositoryManager,mapper));
             _lazyDetailProductService = new Lazy<IDetailProductService>(() => new DetailProductService(repositoryManager));
         }
 

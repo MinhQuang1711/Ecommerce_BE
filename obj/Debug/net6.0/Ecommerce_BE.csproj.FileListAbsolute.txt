@@ -78,3 +78,5 @@ C:\Users\ASUS\PersonalProject\Ecommerce\Ecommerce_BE\Ecommerce_BE\bin\Debug\net6
 C:\Users\ASUS\PersonalProject\Ecommerce\Ecommerce_BE\Ecommerce_BE\bin\Debug\net6.0\runtimes\win-x64\native\k5sprt64.dll
 C:\Users\ASUS\PersonalProject\Ecommerce\Ecommerce_BE\Ecommerce_BE\bin\Debug\net6.0\runtimes\win-x64\native\krb5_64.dll
 C:\Users\ASUS\PersonalProject\Ecommerce\Ecommerce_BE\Ecommerce_BE\bin\Debug\net6.0\runtimes\win-x64\native\krbcc64.dll
+C:\Users\ASUS\PersonalProject\Ecommerce\Ecommerce_BE\Ecommerce_BE\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\ASUS\PersonalProject\Ecommerce\Ecommerce_BE\Ecommerce_BE\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
