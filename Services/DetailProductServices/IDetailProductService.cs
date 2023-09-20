@@ -6,6 +6,7 @@ namespace Ecommerce_BE.Services.DetailProductServices
     {
         public Task<string?> Create(DetailProductDto detailProduct, string productId);
         public Task<double?> GetTotalCost(DetailProductDto detailProduct); 
+        public Task<List<GetDetailProductDto>> GetByProductId(string productId);
 
     }
 }

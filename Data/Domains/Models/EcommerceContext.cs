@@ -27,7 +27,7 @@ namespace Ecommerce_BE.Data.Domains
                
                 entity.Property(e => e.Cost).IsRequired();
                 entity.Property(e => e.Price).IsRequired();
-                entity.HasKey(e => e.id);
+                entity.HasKey(e => e.Id);
 
             });
 
@@ -40,7 +40,7 @@ namespace Ecommerce_BE.Data.Domains
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.PricePerGram).IsRequired();
                 entity.Property(e => e.ImportPrice).IsRequired();
-                entity.HasKey(e => e.id);
+                entity.HasKey(e => e.Id);
             });
 
             modelBuilder.Entity<DetailProduct>(entity =>
@@ -54,7 +54,7 @@ namespace Ecommerce_BE.Data.Domains
             modelBuilder.Entity<BillOfSale>(entity =>
             {
                
-                entity.HasKey(e => e.id);
+                entity.HasKey(e => e.Id);
                 
             });
 
@@ -66,7 +66,7 @@ namespace Ecommerce_BE.Data.Domains
 
             modelBuilder.Entity<ImportBill>(entity =>
             {
-                entity.HasKey(e => e.id);
+                entity.HasKey(e => e.Id);
                 
 
                

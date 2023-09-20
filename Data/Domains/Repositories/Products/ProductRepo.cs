@@ -19,7 +19,7 @@ namespace Ecommerce_BE.Repositories.Products
 
         public async Task DeleteProduct(string id)
         {
-            var _productResult= await _context.products.SingleAsync(p=> p.id==id);
+            var _productResult= await _context.products.SingleAsync(p=> p.Id ==id);
             _context.products.Remove(_productResult);
             await _context.SaveChangesAsync();
         }
@@ -31,7 +31,7 @@ namespace Ecommerce_BE.Repositories.Products
 
         public async Task UpdateProduct(Product model,string id)
         {
-            var _productResult = await _context.products.SingleAsync(p => p.id == id);
+            var _productResult = await _context.products.SingleAsync(p => p.Id == id);
             _productResult = model;
              _context.products.Update(_productResult);
             await _context.SaveChangesAsync();
@@ -41,7 +41,7 @@ namespace Ecommerce_BE.Repositories.Products
 
         public async Task<Product?> SearchById(string id)
         {
-            return await _context.products.SingleAsync(p=> p.id==id);
+            return await _context.products.SingleAsync(p=> p.Id ==id);
         }
 
         public List<Product> SearchByName(string name)

@@ -33,7 +33,7 @@ namespace Ecommerce_BE.Services.IngredientServices
                 Loss = model.Loss ?? 0,
                 RealWeight = _realWeight,
                 NetWeight = model.NetWeight,
-                id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 ImportPrice = model.ImportPrice,
                 PricePerGram = GetPricePerGram(_realWeight, model.ImportPrice),
             };

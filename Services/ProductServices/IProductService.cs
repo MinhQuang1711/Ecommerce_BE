@@ -6,7 +6,7 @@ namespace Ecommerce_BE.Services.ProductServices
 {
     public interface IProductService
     {
-        public Task<List<ProductDto>> GetAll();
+        public Task<List<GetProductDto>> GetAll();
 
         public Task<string?> CreateProduct(CreateProductDto model,string id);
 

@@ -21,7 +21,7 @@ namespace Ecommerce_BE.Services.DetailProductServices
                 {
                     SumCost=_cost??0,
                     ProductID = productId,
-                    id = Guid.NewGuid().ToString(),
+                    Id = Guid.NewGuid().ToString(),
                     Weight =detailProductDto.Weight,
                     IngredientID = detailProductDto.IngredientID,
                 };
@@ -30,6 +30,27 @@ namespace Ecommerce_BE.Services.DetailProductServices
             }
             return BusinessMessage.NotFoundIngredient; 
             
+        }
+
+        public async Task<List<GetDetailProductDto>> GetByProductId(string productId)
+        {
+            var _detailProductList= await _repoManager.detailProductRepo.GetByProductId(productId);
+            var _detailProductDtoList= new List<GetDetailProductDto>();
+            foreach (var item in _detailProductList)
+            {
+                var _detailProductDto = new GetDetailProductDto() 
+                {
+                    Id = item.Id,
+                    Weight = item.Weight,
+                    IngredientId = item.IngredientID,
+                    ProductName = item.ProductName,
+
+                };
+
+                _detailProductDtoList.Add(_detailProductDto);
+            }
+
+            return _detailProductDtoList;
         }
 
         public async Task<double?> GetTotalCost(DetailProductDto detailProduct)
