@@ -15,6 +15,19 @@ namespace Ecommerce_BE.Controllers
             _managerService=managerService;
         }
 
+        [HttpGet("get-all")]
+        public async Task<IActionResult> Get()
+        {
+            var _productDtoList= await _managerService.productService.GetAll();
+            for (int i=0;i< _productDtoList.Count; i++)
+            {
+                var _listDetailDto = await _managerService.detailProductService.GetByProductId(_productDtoList[i].Id);
+                _productDtoList[i].DetailProducts = _listDetailDto;
+            }
+
+            return Ok(_productDtoList);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> Create(CreateProductDto model)
         {

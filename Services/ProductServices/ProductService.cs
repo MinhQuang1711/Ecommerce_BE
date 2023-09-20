@@ -21,7 +21,7 @@ namespace Ecommerce_BE.Services.ProductServices
             {
                 var _productModel = new Product()
                 {
-                    id = id,
+                    Id = id,
                     Name = model.Name,
                     Price = model.Price,
                     SalePrice = 0,
@@ -37,9 +37,25 @@ namespace Ecommerce_BE.Services.ProductServices
            
         }
 
-        public Task<List<ProductDto>> GetAll()
+        public async Task<List<GetProductDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var _productList = await _repositoryManager.productRepo.GetAllProduct();
+            var _productDtoList= new List<GetProductDto>();
+
+            foreach (var _product in _productList)
+            {
+                var _productDto = new GetProductDto() 
+                {
+                    Id = _product.Id,
+                    Name = _product.Name,
+                    Price = _product.Price,
+                    DetailProducts= new List<GetDetailProductDto>(),
+
+                };
+                _productDtoList.Add(_productDto);
+            }
+
+            return _productDtoList;
         }
 
         public async Task<double?> GetTotalCost(List<DetailProductDto> detailProductDtoList)

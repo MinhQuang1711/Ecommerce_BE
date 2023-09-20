@@ -24,7 +24,7 @@ namespace Ecommerce_BE.Repositories.Ingerdients
 
         public async Task<bool> DeleteIngredient(string id)
         {
-            var deleteIngredient= await _context.ingredients.SingleAsync(i=> i.id==id);
+            var deleteIngredient= await _context.ingredients.SingleAsync(i=> i.Id ==id);
             if (deleteIngredient != null)
             {
                 _context.ingredients.Remove(deleteIngredient);
@@ -36,7 +36,7 @@ namespace Ecommerce_BE.Repositories.Ingerdients
 
         public async Task<Ingerdient?> FindIngredientById(string id)
         {
-            return await _context.ingredients.SingleOrDefaultAsync(i=> i.id==id);
+            return await _context.ingredients.SingleOrDefaultAsync(i=> i.Id ==id);
         }
 
         public async Task<List<Ingerdient>> GetAllIngredient()
@@ -47,7 +47,7 @@ namespace Ecommerce_BE.Repositories.Ingerdients
 
         public async Task<string?> UpdateIngredient(Ingerdient model, string id)
         {
-            var _ingredientResult = await _context.ingredients.SingleOrDefaultAsync(i => i.id == id);
+            var _ingredientResult = await _context.ingredients.SingleOrDefaultAsync(i => i.Id == id);
             if (_ingredientResult != null)
             {
                 _ingredientResult = model;

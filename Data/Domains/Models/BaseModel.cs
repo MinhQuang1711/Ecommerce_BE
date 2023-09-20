@@ -2,11 +2,11 @@
 {
     public class BaseModel
     {
-        public string id { get; set; } 
+        public string Id { get; set; } 
 
         public BaseModel() 
         {
-                id= Guid.NewGuid().ToString();
+                Id= Guid.NewGuid().ToString();
         } 
     }
 }
