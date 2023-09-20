@@ -12,18 +12,23 @@ namespace Ecommerce_BE.Services.DetailProductServices
         public DetailProductService(IRepositoryManager repositoryManager) { 
             _repoManager=repositoryManager;
         }
-        public async Task<string?> Create(DetailProductDto detailProductDto, string productId)
+        public async Task<string?> Create(DetailProductDto detailProductDto, string productId, string productName)
         {
-            var _cost = await GetTotalCost(detailProductDto);
-            if (_cost != null)
+            
+            var _ingredient= await _repoManager.ingredientRepo.FindIngredientById(detailProductDto.IngredientID);
+            if (_ingredient != null)
             {
+                var _name= _ingredient.Name;
+                var _cost = GetTotalCost(_ingredient ??new Ingerdient(), detailProductDto.Weight) ;
                 var _detailProduct = new DetailProduct()
                 {
-                    SumCost=_cost??0,
+                    SumCost= _cost,
                     ProductID = productId,
+                    ProductName = productName,
                     Id = Guid.NewGuid().ToString(),
                     Weight =detailProductDto.Weight,
                     IngredientID = detailProductDto.IngredientID,
+                    IngredientName = _name??"lỗi lưu tên",
                 };
                await _repoManager.detailProductRepo.Create(_detailProduct);
                return null;
@@ -41,6 +46,7 @@ namespace Ecommerce_BE.Services.DetailProductServices
                 var _detailProductDto = new GetDetailProductDto() 
                 {
                     Id = item.Id,
+                    IngredientName= item.IngredientName,
                     Weight = item.Weight,
                     IngredientId = item.IngredientID,
                     ProductName = item.ProductName,
@@ -53,14 +59,10 @@ namespace Ecommerce_BE.Services.DetailProductServices
             return _detailProductDtoList;
         }
 
-        public async Task<double?> GetTotalCost(DetailProductDto detailProduct)
+        public double GetTotalCost(Ingerdient ingredient,double Weight)
         {
-            var _ingredientResult=await _repoManager.ingredientRepo.FindIngredientById(detailProduct.IngredientID);
-            if (_ingredientResult != null)
-            {
-                return _ingredientResult.PricePerGram * detailProduct.Weight;
-            }
-            return null;
+           return ingredient.PricePerGram * Weight;
+          
         }
     }
 }

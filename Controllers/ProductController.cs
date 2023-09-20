@@ -41,7 +41,7 @@ namespace Ecommerce_BE.Controllers
                 }
                 foreach (var item in model.DetailProductsList)
                 {
-                    await _managerService.detailProductService.Create(item, id);
+                    await _managerService.detailProductService.Create(item, id,model.Name);
                 }
                 return Ok();
             }
