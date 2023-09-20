@@ -1,5 +1,6 @@
 using Ecommerce_BE.Data.Domains;
 using Ecommerce_BE.Data.Domains.Repositories;
+using Ecommerce_BE.Helpers.Mappers;
 using Ecommerce_BE.Repositories.Ingerdients;
 using Ecommerce_BE.Services.ManagerServices;
 using Microsoft.AspNetCore.Diagnostics;
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<EcommerceContext>(
     }));
 
 
+builder.Services.AddAutoMapper(typeof(BusinessMapper));
 builder.Services.AddScoped<IRepositoryManager,RepositoryManager>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 var app = builder.Build();

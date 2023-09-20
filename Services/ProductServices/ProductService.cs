@@ -1,4 +1,5 @@
-﻿using Ecommerce_BE.Data.Domains;
+﻿using AutoMapper;
+using Ecommerce_BE.Data.Domains;
 using Ecommerce_BE.Data.Domains.Repositories;
 using Ecommerce_BE.Data.DTO.DetaiProducts;
 using Ecommerce_BE.Data.DTO.Products;
@@ -9,9 +10,11 @@ namespace Ecommerce_BE.Services.ProductServices
     public class ProductService : IProductService
     {
         private readonly IRepositoryManager _repositoryManager;
+        private readonly IMapper _mapper;
 
-        public ProductService(IRepositoryManager repositoryManager) {
+        public ProductService(IRepositoryManager repositoryManager,IMapper mapper) {
             _repositoryManager= repositoryManager;
+            _mapper = mapper;
         }
 
         public async Task<string?> CreateProduct(CreateProductDto model, string id)
@@ -51,22 +54,8 @@ namespace Ecommerce_BE.Services.ProductServices
         public async Task<List<GetProductDto>> GetAll()
         {
             var _productList = await _repositoryManager.productRepo.GetAllProduct();
-            var _productDtoList= new List<GetProductDto>();
 
-            foreach (var _product in _productList)
-            {
-                var _productDto = new GetProductDto() 
-                {
-                    Id = _product.Id,
-                    Name = _product.Name,
-                    Price = _product.Price,
-                    DetailProducts= new List<GetDetailProductDto>(),
-
-                };
-                _productDtoList.Add(_productDto);
-            }
-
-            return _productDtoList;
+            return _mapper.Map<List<GetProductDto>>(_productList);
         }
 
         public async Task<double?> GetTotalCost(List<DetailProductDto> detailProductDtoList)
@@ -88,6 +77,12 @@ namespace Ecommerce_BE.Services.ProductServices
                  
             }
             return _totalCost;
+        }
+
+        public  List<GetProductDto> SearchByName(string name)
+        {
+            var _productList =  _repositoryManager.productRepo.SearchByName(name);
+            return _mapper.Map<List<GetProductDto>>(_productList);
         }
     }
 }

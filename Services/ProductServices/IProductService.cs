@@ -6,13 +6,17 @@ namespace Ecommerce_BE.Services.ProductServices
 {
     public interface IProductService
     {
+        public Task<string?> Delete(string id);
+
         public Task<List<GetProductDto>> GetAll();
+
+        public List<GetProductDto> SearchByName(string name);
 
         public Task<string?> CreateProduct(CreateProductDto model,string id);
 
         public Task<double?> GetTotalCost(List<DetailProductDto> detailProductDtoList);
 
-        public Task<string?> Delete(string id);
+        
 
 
     }
