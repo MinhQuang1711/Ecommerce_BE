@@ -15,22 +15,20 @@ namespace Ecommerce_BE.Controllers
             _managerService=managerService;
         }
 
-        [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll()
-        {
-
-            return Ok(await _managerService.productService.GetAll());
-        }
-
         [HttpPost("create")]
         public async Task<IActionResult> Create(CreateProductDto model)
         {
             try
             {
-                var _message= await _managerService.productService.CreateProduct(model);
+                var id= Guid.NewGuid().ToString(); 
+                var _message= await _managerService.productService.CreateProduct(model,id);
                 if (_message != null)
                 {
                     return BadRequest(_message);
+                }
+                foreach (var item in model.DetailProductsList)
+                {
+                    await _managerService.detailProductService.Create(item, id);
                 }
                 return Ok();
             }

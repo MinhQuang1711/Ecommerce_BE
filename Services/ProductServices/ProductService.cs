@@ -14,14 +14,14 @@ namespace Ecommerce_BE.Services.ProductServices
             _repositoryManager= repositoryManager;
         }
 
-        public async Task<string?> CreateProduct(CreateProductDto model)
+        public async Task<string?> CreateProduct(CreateProductDto model, string id)
         {
             var _cost = await GetTotalCost(model.DetailProductsList);
             if (_cost != null)
             {
                 var _productModel = new Product()
                 {
-                    id = Guid.NewGuid().ToString(),
+                    id = id,
                     Name = model.Name,
                     Price = model.Price,
                     SalePrice = 0,

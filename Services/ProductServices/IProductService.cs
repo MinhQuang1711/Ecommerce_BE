@@ -8,7 +8,7 @@ namespace Ecommerce_BE.Services.ProductServices
     {
         public Task<List<ProductDto>> GetAll();
 
-        public Task<string?> CreateProduct(CreateProductDto model);
+        public Task<string?> CreateProduct(CreateProductDto model,string id);
 
         public Task<double?> GetTotalCost(List<DetailProductDto> detailProductDtoList);
 
