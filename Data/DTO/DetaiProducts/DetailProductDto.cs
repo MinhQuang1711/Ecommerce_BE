@@ -6,5 +6,7 @@ namespace Ecommerce_BE.Data.DTO.DetaiProducts
     {
         public string IngredientID { get; set; } 
         public double Weight { get; set; }
+
+        public DetailProductDto() { }
     }
 }
