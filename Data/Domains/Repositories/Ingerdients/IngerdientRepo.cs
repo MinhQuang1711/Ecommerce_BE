@@ -18,16 +18,16 @@ namespace Ecommerce_BE.Repositories.Ingerdients
 
         public async Task CreateIngredient(Ingerdient model)
         {
-            _context.ingerdients.Add(model);
+            _context.ingredients.Add(model);
             await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteIngredient(string id)
         {
-            var deleteIngredient= await _context.ingerdients.SingleAsync(i=> i.id==id);
+            var deleteIngredient= await _context.ingredients.SingleAsync(i=> i.id==id);
             if (deleteIngredient != null)
             {
-                _context.ingerdients.Remove(deleteIngredient);
+                _context.ingredients.Remove(deleteIngredient);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -36,22 +36,22 @@ namespace Ecommerce_BE.Repositories.Ingerdients
 
         public async Task<Ingerdient?> FindIngredientById(string id)
         {
-            return await _context.ingerdients.SingleOrDefaultAsync(i=> i.id==id);
+            return await _context.ingredients.SingleOrDefaultAsync(i=> i.id==id);
         }
 
         public async Task<List<Ingerdient>> GetAllIngredient()
         {
-            return await _context.ingerdients.ToListAsync();
+            return await _context.ingredients.ToListAsync();
         }
 
 
         public async Task<string?> UpdateIngredient(Ingerdient model, string id)
         {
-            var _ingredientResult = await _context.ingerdients.SingleOrDefaultAsync(i => i.id == id);
+            var _ingredientResult = await _context.ingredients.SingleOrDefaultAsync(i => i.id == id);
             if (_ingredientResult != null)
             {
                 _ingredientResult = model;
-                _context.ingerdients.Update(_ingredientResult);
+                _context.ingredients.Update(_ingredientResult);
                 await _context.SaveChangesAsync();
                 return null;
             }
@@ -61,7 +61,7 @@ namespace Ecommerce_BE.Repositories.Ingerdients
 
         public List<Ingerdient> SearchByName(string name)
         {
-            var ingredientsResult = _context.ingerdients.Where(ingredient
+            var ingredientsResult = _context.ingredients.Where(ingredient
                     => ingredient.Name.Contains(name,StringComparison.OrdinalIgnoreCase)
                );
             return ingredientsResult.ToList();  

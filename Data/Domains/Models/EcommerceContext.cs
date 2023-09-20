@@ -7,8 +7,8 @@ namespace Ecommerce_BE.Data.Domains
         public EcommerceContext(DbContextOptions options) : base(options) {  }
 
         public DbSet<Product> products { get; set; }
-        public DbSet<Ingerdient> ingerdients { get; set; }
-        public DbSet<IngerProduct> detailProducts { get; set; }
+        public DbSet<Ingerdient> ingredients { get; set; }
+        public DbSet<DetailProduct> detailProducts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,8 +31,8 @@ namespace Ecommerce_BE.Data.Domains
 
             });
 
-            modelBuilder.Entity<IngerProduct>(entity => {
-                entity.HasOne<Ingerdient>().WithMany().HasForeignKey(e => e.IngerdientID);
+            modelBuilder.Entity<DetailProduct>(entity => {
+                entity.HasOne<Ingerdient>().WithMany().HasForeignKey(e => e.IngredientID);
                 entity.HasOne<Product>().WithMany().HasForeignKey(e => e.ProductID);
             });
             modelBuilder.Entity<Ingerdient>(entity =>
@@ -43,10 +43,10 @@ namespace Ecommerce_BE.Data.Domains
                 entity.HasKey(e => e.id);
             });
 
-            modelBuilder.Entity<IngerProduct>(entity =>
+            modelBuilder.Entity<DetailProduct>(entity =>
             {
                 entity.Property(e => e.ProductID).IsRequired();
-                entity.Property(e => e.IngerdientID).IsRequired();
+                entity.Property(e => e.IngredientID).IsRequired();
                 entity.Property(e => e.SumCost).IsRequired();
                 entity.Property(e => e.Weight).IsRequired();
             });
