@@ -18,6 +18,16 @@ namespace Ecommerce_BE.Data.Domains.Repositories.DetailProductRepo
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteByProductId(string productId)
+        {
+            var _detailProductList =  _context.detailProducts.Where(d=> d.ProductID==productId);
+           
+            _context.detailProducts.RemoveRange(_detailProductList);
+
+            await _context.SaveChangesAsync();  
+
+        }
+
         public async Task<List<DetailProduct>> GetByProductId(string productId)
         {
             return await _context.detailProducts.Where(d=> d.ProductID==productId).ToListAsync();

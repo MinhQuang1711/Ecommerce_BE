@@ -37,6 +37,11 @@ namespace Ecommerce_BE.Services.DetailProductServices
             
         }
 
+        public async Task DeleteByProductId(string productId)
+        {
+            await _repoManager.detailProductRepo.DeleteByProductId(productId);
+        }
+
         public async Task<List<GetDetailProductDto>> GetByProductId(string productId)
         {
             var _detailProductList= await _repoManager.detailProductRepo.GetByProductId(productId);
