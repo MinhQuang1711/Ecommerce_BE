@@ -1,8 +1,8 @@
 ﻿using Ecommerce_BE.Data.Domains;
 
-namespace Ecommerce_BE.Repositories.SaleOfBills
+namespace Ecommerce_BE.Services.BillOfSaleServices
 {
-    public interface IBillOfSaleRepo
+    public interface IBillOfSaleService
     {
         public Task<List<BillOfSale>> GetAll();
     }
