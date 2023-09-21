@@ -1,4 +1,5 @@
-﻿using Ecommerce_BE.Services.ManagerServices;
+﻿using Ecommerce_BE.Data.DTO.BillOfSales;
+using Ecommerce_BE.Services.ManagerServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,22 @@ namespace Ecommerce_BE.Controllers
             catch(Exception e) {
                 return StatusCode(500, e.Message);
             }
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(CreateBillOfSaleDto model)
+        {
+            var id = Guid.NewGuid().ToString();
+            var _message =await _managerService.BillOfSaleService.Create(model,id);
+            if (_message == null)
+            {
+                foreach (var item in model.DetailBillOfSales)
+                {
+                    await _managerService.detailBillOfSaleService.Create(item,id);
+                }
+                return Ok();
+            }
+            return BadRequest(_message);
         }
 
     }
