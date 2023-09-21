@@ -13,6 +13,12 @@ namespace Ecommerce_BE.Repositories.BillOfSales
             _context=context;
         }
 
+        public async Task CreateBillOfSale(BillOfSale billOfSale)
+        {
+            await _context.billOfSales.AddAsync(billOfSale);
+            await _context.SaveChangesAsync();  
+        }
+
         public async Task<List<BillOfSale>> GetAll()
         {
             return await _context.billOfSales.ToListAsync();

@@ -1,4 +1,5 @@
-﻿using Ecommerce_BE.Data.Domains.Repositories.DetailProductRepo;
+﻿using Ecommerce_BE.Data.Domains.Repositories.DetailbillOfSales;
+using Ecommerce_BE.Data.Domains.Repositories.DetailProductRepo;
 using Ecommerce_BE.Repositories.ImportBills;
 using Ecommerce_BE.Repositories.Ingerdients;
 using Ecommerce_BE.Repositories.Products;
@@ -14,5 +15,7 @@ namespace Ecommerce_BE.Data.Domains.Repositories
         public IBillOfSaleRepo billOfSaleRepo { get; }
         public IIngredientRepo ingredientRepo { get; }
         public IDetailProductRepo detailProductRepo { get; }
+
+        public IDetailBillOfSaleRepo detailBillOfSaleRepo { get; }
     }
 }
