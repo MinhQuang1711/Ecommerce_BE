@@ -62,6 +62,7 @@ namespace Ecommerce_BE.Controllers
                 {
                     return BadRequest(_message);
                 }
+                await _managerService.detailProductService.DeleteByProductId(id);
                 return Ok();
             }
             catch (Exception ex)
