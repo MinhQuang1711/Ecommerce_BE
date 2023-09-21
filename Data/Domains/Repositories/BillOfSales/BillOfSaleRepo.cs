@@ -1,28 +1,21 @@
 ﻿using Ecommerce_BE.Data.Domains;
 using Ecommerce_BE.Repositories.SaleOfBills;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_BE.Repositories.BillOfSales
 {
     public class BillOfSaleRepo : IBillOfSaleRepo
     {
-        public Task CreateBillOfSale(BillOfSale billOfSale)
+        private readonly EcommerceContext _context;
+
+        public BillOfSaleRepo(EcommerceContext context) 
         {
-            throw new NotImplementedException();
+            _context=context;
         }
 
-        public Task DeleteBillOfSale(string id)
+        public async Task<List<BillOfSale>> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<BillOfSale>> GetAllBillOfSale()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateBillOfSale(BillOfSale billOfSale)
-        {
-            throw new NotImplementedException();
+            return await _context.billOfSales.ToListAsync();
         }
     }
 }

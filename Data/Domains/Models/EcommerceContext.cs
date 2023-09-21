@@ -9,6 +9,8 @@ namespace Ecommerce_BE.Data.Domains
         public DbSet<Product> products { get; set; }
         public DbSet<Ingerdient> ingredients { get; set; }
         public DbSet<DetailProduct> detailProducts { get; set; }
+        public DbSet<BillOfSale> billOfSales { get; set; }
+        public DbSet<DetailBillOfSale> detailBillOfSales { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
