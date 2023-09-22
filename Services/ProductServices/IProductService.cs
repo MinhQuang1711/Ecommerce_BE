@@ -10,7 +10,7 @@ namespace Ecommerce_BE.Services.ProductServices
 
         public Task<List<GetProductDto>> GetAll();
 
-        public List<GetProductDto> SearchByName(string name);
+        public Task<List<GetProductDto>> SearchByName(string name);
 
         public Task<string?> CreateProduct(CreateProductDto model,string id);
 

@@ -79,9 +79,9 @@ namespace Ecommerce_BE.Services.ProductServices
             return _totalCost;
         }
 
-        public  List<GetProductDto> SearchByName(string name)
+        public async Task<List<GetProductDto>> SearchByName(string name)
         {
-            var _productList =  _repositoryManager.productRepo.SearchByName(name);
+            var _productList =await  _repositoryManager.productRepo.SearchByName(name);
             return _mapper.Map<List<GetProductDto>>(_productList);
         }
     }

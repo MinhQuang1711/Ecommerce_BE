@@ -77,7 +77,7 @@ namespace Ecommerce_BE.Controllers
         {
             try
             {
-                var _productDtos =  _managerService.productService.SearchByName(name);
+                var _productDtos = await _managerService.productService.SearchByName(name);
 
                 return Ok(_productDtos);
             }

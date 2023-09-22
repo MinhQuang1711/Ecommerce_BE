@@ -36,6 +36,11 @@ namespace Ecommerce_BE.Services.DetailBillOfSaleServices
             return BusinessMessage.NotFoundProduct; 
         }
 
+        public async Task DeleteByBillId(string billId)
+        {
+            await _repoManager.detailBillOfSaleRepo.DeleteByBillId(billId); 
+        }
+
         public  double GetTotal(double quantity, double price)
         {
           return quantity * price;  
