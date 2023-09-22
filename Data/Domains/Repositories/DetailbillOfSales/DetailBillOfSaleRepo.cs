@@ -1,4 +1,5 @@
 ﻿using Ecommerce_BE.Repositories.SaleOfBills;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_BE.Data.Domains.Repositories.DetailbillOfSales
 {
@@ -15,5 +16,10 @@ namespace Ecommerce_BE.Data.Domains.Repositories.DetailbillOfSales
            await _context.SaveChangesAsync();
         }
 
+        public async Task<List<DetailBillOfSale>> SearchByBillId(string billId)
+        {
+            var _detailBillOfSaleList= await _context.detailBillOfSales.Where(d=> d.BillId==billId).ToListAsync();
+            return _detailBillOfSaleList;   
+        }
     }
 }

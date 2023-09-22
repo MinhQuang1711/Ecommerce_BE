@@ -17,11 +17,11 @@ namespace Ecommerce_BE.Services.ManagerServices
         private readonly Lazy<IDetailBillOfSaleService> _lazyDetailBillOfSaleService;
 
         public ManagerService(IRepositoryManager repositoryManager,IMapper mapper) {
-            _lazyBillOfSaleService = new Lazy<IBillOfSaleService>(() => new BillOfSaleService(repositoryManager));
+            _lazyBillOfSaleService = new Lazy<IBillOfSaleService>(() => new BillOfSaleService(repositoryManager,mapper));
             _lazyIngredientService = new Lazy<IIngredientService>(()=>new IngredientService(repositoryManager));
             _lazyProductService = new Lazy<IProductService>(() => new ProductService(repositoryManager,mapper));
             _lazyDetailProductService = new Lazy<IDetailProductService>(() => new DetailProductService(repositoryManager));
-            _lazyDetailBillOfSaleService = new Lazy<IDetailBillOfSaleService>(() => new DetailBillOfSaleService(repositoryManager));
+            _lazyDetailBillOfSaleService = new Lazy<IDetailBillOfSaleService>(() => new DetailBillOfSaleService(repositoryManager,mapper));
         }
 
         public IIngredientService ingredientService => _lazyIngredientService.Value;

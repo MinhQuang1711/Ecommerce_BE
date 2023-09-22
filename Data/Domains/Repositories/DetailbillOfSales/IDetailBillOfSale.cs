@@ -3,5 +3,6 @@
     public interface IDetailBillOfSaleRepo
     {
         public Task Create(DetailBillOfSale model);
+        public Task<List<DetailBillOfSale>> SearchByBillId(string billId);
     }
 }

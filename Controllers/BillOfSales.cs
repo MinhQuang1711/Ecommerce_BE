@@ -1,4 +1,6 @@
 ﻿using Ecommerce_BE.Data.DTO.BillOfSales;
+using Ecommerce_BE.Data.DTO.DetailBillOfSales;
+using Ecommerce_BE.Messages;
 using Ecommerce_BE.Services.ManagerServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +28,18 @@ namespace Ecommerce_BE.Controllers
             catch(Exception e) {
                 return StatusCode(500, e.Message);
             }
+        }
+        [HttpGet("detail")]
+        public async Task<IActionResult> GetDetail(string id)
+        {
+            var _result= await _managerService.BillOfSaleService.SearchById(id);
+            if (_result != null)
+            {
+                var _detailBill = await _managerService.detailBillOfSaleService.SearchByBillId(id);
+                _result.DetailBillOfSales = _detailBill??new List<GetDetailBillOfSaleDto> (){ }; 
+                return Ok(_result);
+            }
+            return StatusCode(404,BusinessMessage.NotFoundSaleOfBill);
         }
 
         [HttpPost("create")]
