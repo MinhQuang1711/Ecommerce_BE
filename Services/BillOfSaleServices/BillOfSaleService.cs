@@ -28,7 +28,7 @@ namespace Ecommerce_BE.Services.BillOfSaleServices
                     Discount = model.Discount ?? 0,
                     TotalPrice = _total??0, 
                     FinalPrice= _total??0 -model.Discount ?? 0, 
-                    SaleDate =DateTime.Now.ToString(),
+                    SaleDate =DateTime.Now,
                     PaymentType = model.PaymentType,    
                     
                 };
@@ -73,5 +73,9 @@ namespace Ecommerce_BE.Services.BillOfSaleServices
             return total;
         }
 
+        public async Task<List<BillOfSale>> SearchByDate(DateTime startTime, DateTime endTime)
+        {
+            return await _repositoryManager.billOfSaleRepo.SearchByDate(startTime, endTime);    
+        }
     }
 }

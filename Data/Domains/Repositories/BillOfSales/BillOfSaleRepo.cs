@@ -36,5 +36,12 @@ namespace Ecommerce_BE.Repositories.BillOfSales
         {
             return await _context.billOfSales.ToListAsync();
         }
+
+        public async Task<List<BillOfSale>> SearchByDate(DateTime fromTime, DateTime endTime)
+        {
+            var _billOfSaleList = await _context.billOfSales.Where(b=> fromTime<=b.SaleDate && b.SaleDate<= endTime).ToListAsync();
+
+            return _billOfSaleList;
+        }
     }
 }
