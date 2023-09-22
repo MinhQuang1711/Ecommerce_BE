@@ -74,6 +74,8 @@ namespace Ecommerce_BE.Controllers
             {
                 return BadRequest(_message);
             }
+            await _managerService.detailBillOfSaleService.DeleteByBillId(id);
+
             return Ok();
         }
 

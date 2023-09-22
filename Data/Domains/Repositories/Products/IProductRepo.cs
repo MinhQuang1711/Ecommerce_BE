@@ -12,7 +12,7 @@ namespace Ecommerce_BE.Repositories.Products
 
         public Task CreateProduct(Product product); 
 
-        public List<Product> SearchByName(string name);
+        public Task<List<Product>> SearchByName(string name);
 
         public Task UpdateProduct(Product product,string id);
        

@@ -44,10 +44,10 @@ namespace Ecommerce_BE.Repositories.Products
             return await _context.products.SingleOrDefaultAsync(p=> p.Id ==id);
         }
 
-        public List<Product> SearchByName(string name)
+        public async Task<List<Product>> SearchByName(string name)
         {
             var result = _context.products.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
-            return result.ToList(); 
+            return await result.ToListAsync(); 
         }
     }
 }
