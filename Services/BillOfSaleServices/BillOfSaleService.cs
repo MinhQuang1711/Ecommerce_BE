@@ -43,6 +43,11 @@ namespace Ecommerce_BE.Services.BillOfSaleServices
           
         }
 
+        public async Task<string?> Delete(string id)
+        {
+            return await _repositoryManager.billOfSaleRepo.Delete(id);
+        }
+
         public async Task<List<BillOfSale>> GetAll()
         {
             return await _repositoryManager.billOfSaleRepo.GetAll();

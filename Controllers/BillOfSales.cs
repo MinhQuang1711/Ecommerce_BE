@@ -44,5 +44,16 @@ namespace Ecommerce_BE.Controllers
             return BadRequest(_message);
         }
 
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var _message = await _managerService.BillOfSaleService.Delete(id);
+            if (_message != null)
+            {
+                return BadRequest(_message);    
+            }
+            return Ok();
+        }
+
     }
 }
