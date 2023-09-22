@@ -78,6 +78,11 @@ namespace Ecommerce_BE.Controllers
             try
             {
                 var _productDtos = await _managerService.productService.SearchByName(name);
+                foreach (var dtos in _productDtos)
+                {
+                    var _detailProductList = await _managerService.detailProductService.GetByProductId(dtos.Id); 
+                    dtos.DetailProducts = _detailProductList;
+                }
 
                 return Ok(_productDtos);
             }
