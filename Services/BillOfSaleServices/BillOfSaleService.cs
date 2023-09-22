@@ -80,9 +80,9 @@ namespace Ecommerce_BE.Services.BillOfSaleServices
             return total;
         }
 
-        public async Task<List<BillOfSale>> SearchByDate(DateTime startTime, DateTime endTime)
+        public async Task<List<BillOfSale>> Search(SearchBillOfSaleByDateDto searchBillOfSaleByDateDto)
         {
-            return await _repositoryManager.billOfSaleRepo.SearchByDate(startTime, endTime);    
+            return await _repositoryManager.billOfSaleRepo.Search(searchBillOfSaleByDateDto);    
         }
 
         public async Task<GetBillOfSaleDto?> SearchById(string id)

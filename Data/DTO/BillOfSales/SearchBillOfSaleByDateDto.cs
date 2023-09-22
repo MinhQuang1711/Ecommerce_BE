@@ -2,7 +2,8 @@
 {
     public class SearchBillOfSaleByDateDto
     {
-        public DateTime startTime { get; set; }
-        public DateTime endTime { get; set; }
+        public int? PaymentType { get; set; }    
+        public DateTime? startTime { get; set; }
+        public DateTime? endTime { get; set; }
     }
 }
