@@ -17,6 +17,7 @@
 
         public const string IngredientNotExist = "Một hoặc nhiều nguyên liệu bạn chọn không tồn tại";
         public const string ProductNotExist = "Một hoặc nhiều sản phẩm bạn chọn không tồn tại";
+        public const string BillOfSaleNotExist = "Hóa đơn không tồn tại";
 
     }
 }

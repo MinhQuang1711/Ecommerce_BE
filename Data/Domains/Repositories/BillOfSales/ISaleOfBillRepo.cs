@@ -6,5 +6,6 @@ namespace Ecommerce_BE.Repositories.SaleOfBills
     {
         public Task<List<BillOfSale>> GetAll();
         public Task CreateBillOfSale(BillOfSale billOfSale);
+        public Task<string?> Delete(string id); 
     }
 }

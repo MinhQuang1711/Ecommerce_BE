@@ -1,4 +1,5 @@
 ﻿using Ecommerce_BE.Data.Domains;
+using Ecommerce_BE.Messages;
 using Ecommerce_BE.Repositories.SaleOfBills;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,18 @@ namespace Ecommerce_BE.Repositories.BillOfSales
         {
             await _context.billOfSales.AddAsync(billOfSale);
             await _context.SaveChangesAsync();  
+        }
+
+        public async Task<string?> Delete(string id)
+        {
+           var _result= await _context.billOfSales.SingleOrDefaultAsync(b=> b.Id==id);
+            if (_result != null)
+            {
+                _context.billOfSales.Remove(_result); 
+                await _context.SaveChangesAsync();
+                return null;
+            }
+            return BusinessMessage.BillOfSaleNotExist;
         }
 
         public async Task<List<BillOfSale>> GetAll()
