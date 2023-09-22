@@ -43,5 +43,11 @@ namespace Ecommerce_BE.Repositories.BillOfSales
 
             return _billOfSaleList;
         }
+
+        public async Task<BillOfSale?> SearchById(string id)
+        {
+            var _result = await _context.billOfSales.SingleOrDefaultAsync(e=>e.Id==id);
+            return _result;
+        }
     }
 }

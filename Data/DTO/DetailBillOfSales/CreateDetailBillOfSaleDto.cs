@@ -7,6 +7,6 @@ namespace Ecommerce_BE.Data.DTO.DetailBillOfSales
         [Required(ErrorMessage = "Product id không được trống")]
         public string ProductId { get; set; }
         [Range(0,int.MaxValue)]
-        public double Quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -1,9 +1,11 @@
-﻿using Ecommerce_BE.Data.Domains;
+﻿using AutoMapper;
+using Ecommerce_BE.Data.Domains;
 using Ecommerce_BE.Data.Domains.Repositories;
 using Ecommerce_BE.Data.DTO.BillOfSales;
 using Ecommerce_BE.Data.DTO.DetailBillOfSales;
 using Ecommerce_BE.Messages;
 using Ecommerce_BE.Services.ManagerServices;
+using MySql.Data.MySqlClient;
 
 namespace Ecommerce_BE.Services.BillOfSaleServices
 {
@@ -11,10 +13,12 @@ namespace Ecommerce_BE.Services.BillOfSaleServices
     {
      
         private readonly IRepositoryManager _repositoryManager;
+        private readonly IMapper _mapper;
 
-        public BillOfSaleService(IRepositoryManager repositoryManager) {
+        public BillOfSaleService(IRepositoryManager repositoryManager,IMapper mapper) {
 
             _repositoryManager = repositoryManager;
+            _mapper=mapper;
         }
 
         public async Task<string?> Create(CreateBillOfSaleDto model, string id)
@@ -22,18 +26,21 @@ namespace Ecommerce_BE.Services.BillOfSaleServices
             var _total =await GetTotal(model.DetailBillOfSales);
             if (_total != null)
             {
+                var _discount = model.Discount ?? 0;
+                var total = _total ?? 0;
+                var _finalPrice = total- _discount;
                 var _billOfSale = new BillOfSale()
                 {
                     Id = id,
-                    Discount = model.Discount ?? 0,
+                    Discount = _discount,
                     TotalPrice = _total??0, 
-                    FinalPrice= _total??0 -model.Discount ?? 0, 
+                    FinalPrice= _finalPrice,
                     SaleDate =DateTime.Now,
                     PaymentType = model.PaymentType,    
                     
                 };
 
-                await _repositoryManager.billOfSaleRepo.CreateBillOfSale(_billOfSale);
+               await _repositoryManager.billOfSaleRepo.CreateBillOfSale(_billOfSale);
 
 
                 return null;
@@ -76,6 +83,17 @@ namespace Ecommerce_BE.Services.BillOfSaleServices
         public async Task<List<BillOfSale>> SearchByDate(DateTime startTime, DateTime endTime)
         {
             return await _repositoryManager.billOfSaleRepo.SearchByDate(startTime, endTime);    
+        }
+
+        public async Task<GetBillOfSaleDto?> SearchById(string id)
+        {
+            var _billOfSaleResult = await _repositoryManager.billOfSaleRepo.SearchById(id);
+            if (_billOfSaleResult != null) 
+            {
+                var dtos = _mapper.Map<GetBillOfSaleDto>(_billOfSaleResult);
+                return dtos;
+            }
+            return null;
         }
     }
 }

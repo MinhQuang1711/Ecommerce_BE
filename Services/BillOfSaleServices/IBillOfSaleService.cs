@@ -6,6 +6,7 @@ namespace Ecommerce_BE.Services.BillOfSaleServices
 {
     public interface IBillOfSaleService
     {
+        public Task<GetBillOfSaleDto> SearchById(string id);
         public Task<List<BillOfSale>> GetAll();
         public Task<string?> Create(CreateBillOfSaleDto model,string id);
         public Task<double?> GetTotal(List<CreateDetailBillOfSaleDto> detailBillOfSale);
