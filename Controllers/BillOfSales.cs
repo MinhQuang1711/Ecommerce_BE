@@ -44,13 +44,21 @@ namespace Ecommerce_BE.Controllers
             return BadRequest(_message);
         }
 
+        [HttpPost("search-by-date")]
+        public async Task<IActionResult> SearchByDate(SearchBillOfSaleByDateDto searchByDateDto)
+        {
+            var _billOfSales= await _managerService.BillOfSaleService.SearchByDate(searchByDateDto.startTime, searchByDateDto.endTime);  
+            return Ok(_billOfSales);
+        }
+
+
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(string id)
         {
             var _message = await _managerService.BillOfSaleService.Delete(id);
             if (_message != null)
             {
-                return BadRequest(_message);    
+                return BadRequest(_message);
             }
             return Ok();
         }
