@@ -1,4 +1,5 @@
 ﻿using Ecommerce_BE.Data.Domains;
+using Ecommerce_BE.Data.DTO.BillOfSales;
 using Ecommerce_BE.Messages;
 using Ecommerce_BE.Repositories.SaleOfBills;
 using Microsoft.EntityFrameworkCore;
@@ -37,11 +38,41 @@ namespace Ecommerce_BE.Repositories.BillOfSales
             return await _context.billOfSales.ToListAsync();
         }
 
-        public async Task<List<BillOfSale>> SearchByDate(DateTime fromTime, DateTime endTime)
+        public async Task<List<BillOfSale>> Search(SearchBillOfSaleByDateDto model)
         {
-            var _billOfSaleList = await _context.billOfSales.Where(b=> fromTime<=b.SaleDate && b.SaleDate<= endTime).ToListAsync();
 
-            return _billOfSaleList;
+            if(model.startTime.HasValue && model.endTime.HasValue)
+            {
+                if (!string.IsNullOrEmpty(model.PaymentType.ToString()))
+                {
+                    var _list = await _context.billOfSales.Where(b 
+                        =>b.SaleDate >= model.startTime 
+                        && b.SaleDate <= model.endTime 
+                        && b.PaymentType == model.PaymentType
+                        ).ToListAsync();
+                    return _list;
+                }
+                else 
+                {
+                    var _list = await _context.billOfSales.Where(b
+                   => b.SaleDate >= model.startTime
+                   && b.SaleDate <= model.endTime
+                   ).ToListAsync();
+                    return _list;
+                }
+
+               
+            }
+            else if (!string.IsNullOrEmpty(model.PaymentType.ToString()))
+            {
+                var _list = await _context.billOfSales.Where(b
+                      =>  b.PaymentType == model.PaymentType
+                      ).ToListAsync();
+                return _list;   
+            }
+            
+
+            return await GetAll();
         }
 
         public async Task<BillOfSale?> SearchById(string id)

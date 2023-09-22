@@ -58,10 +58,10 @@ namespace Ecommerce_BE.Controllers
             return BadRequest(_message);
         }
 
-        [HttpPost("search-by-date")]
+        [HttpPost("search")]
         public async Task<IActionResult> SearchByDate(SearchBillOfSaleByDateDto searchByDateDto)
         {
-            var _billOfSales= await _managerService.BillOfSaleService.SearchByDate(searchByDateDto.startTime, searchByDateDto.endTime);  
+            var _billOfSales= await _managerService.BillOfSaleService.Search(searchByDateDto);  
             return Ok(_billOfSales);
         }
 
